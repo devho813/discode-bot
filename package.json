@@ -5,7 +5,11 @@
   "repository": "https://github.com/devho813/discord-bot.git",
   "author": "devho813 <devho813@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "start": "node index.js"
+  },
   "dependencies": {
-    "discord.js": "^12.3.1"
+    "discord.js": "^12.3.1",
+    "dotenv": "^8.2.0"
   }
 }
