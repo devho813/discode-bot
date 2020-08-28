@@ -1,4 +1,4 @@
-const { prefix } = require('./Config.json');
+const { prefix } = require('./config.json');
 const dotenv = require('dotenv');
 const Discord = require(`discord.js`);
 const client = new Discord.Client();
