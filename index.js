@@ -23,7 +23,3 @@ client.on('message', message => {
 });
 
 client.login(process.env.TOKEN);
-
-// TODO: 
-// 현재 공부중인 사람 체크
-// 순위 보기 체크
