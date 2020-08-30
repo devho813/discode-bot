@@ -10,9 +10,12 @@ client.once('ready', () => {
 });
 
 client.on('message', message => {
-  const args = message.content.split(" ");
-  if (args[0] === `${prefix}스터디`) {
-    switch (args[1]) {
+  if (message.channel.type == 'dm') return
+  if (!message.content.startsWith(prefix)) return
+
+  const mes = message.content.split(" ");
+  if (mes[0] === `${prefix}스터디`) {
+    switch (mes[1]) {
       case '시작':
         message.channel.send(`
             🔥  ${message.author.username}님이 스터디를 시작하셨습니다.
@@ -33,3 +36,6 @@ client.on('message', message => {
 
 client.login(process.env.TOKEN);
 
+// TODO: 
+// 현재 공부중인 사람 체크
+// 순위 보기 체크
