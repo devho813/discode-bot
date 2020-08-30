@@ -3,7 +3,7 @@ const db = require('../lib/database');
 
 function messageProcess(message, option) {
   const { author: { id, username } } = message;
-  const user = db.find({ id }).value();
+  const user = db.get('users').find({ id }).value();
   const messageSendTime = new Date().getTime();
 
   switch (option) {
@@ -15,15 +15,16 @@ function messageProcess(message, option) {
     case '시작':
       if (!user) {
         // 신규 생성
-        db.push({
-          id,
-          username,
-          isStudying: true,
-          startTime: messageSendTime,
-          today: 0,
-          week: 0,
-          total: 0,
-        }).write();
+        db.get('users')
+          .push({
+            id,
+            username,
+            isStudying: true,
+            startTime: messageSendTime,
+            today: 0,
+            week: 0,
+            total: 0,
+          }).write();
       } else {
         // 업데이트
         const { isStudying } = user;
@@ -33,7 +34,8 @@ function messageProcess(message, option) {
           return;
         }
 
-        db.find({ id })
+        db.get('users')
+          .find({ id })
           .assign({
             isStudying: true,
             startTime: messageSendTime,
@@ -55,7 +57,8 @@ function messageProcess(message, option) {
 
       const studyAmount = messageSendTime - startTime;
 
-      db.find({ id })
+      db.get('users')
+        .find({ id })
         .assign({
           isStudying: false,
           startTime: 0,
