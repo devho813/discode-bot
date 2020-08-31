@@ -4,11 +4,14 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const db = require('./lib/database');
 const { messageProcess } = require('./src/message');
+const { initialUserStudyTime } = require('./src/time');
 
 dotenv.config();
 
 client.once('ready', () => {
   db.defaults({ users: [] }).write();
+  initialUserStudyTime();
+
   console.log("스터디 봇이 준비되었습니다");
 });
 
