@@ -8,7 +8,7 @@ function messageProcess(message, option) {
   switch (option) {
     case '명령어':{
       message.channel.send(`
-          💡 사용 가능한 명령어를 확인합니다. \`\`\`$스터디 시작: 스터디를 시작합니다. \n$스터디 종료: 스터디를 종료합니다. \n$스터디 랭킹: 친구들의 스터디 랭킹을 확인합니다. \n$스터디 업데이트: 다음 업데이트 때 추가될 기능 내역을 확인합니다. \n\n☎ 필요한 기능 or 버그 발견 시 언제든지 말해주세요~\`\`\`
+          💡 사용 가능한 명령어를 확인합니다. \`\`\`$스터디 시작: 스터디를 시작합니다. \n$스터디 종료: 스터디를 종료합니다. \n$스터디 랭킹: 친구들의 스터디 랭킹을 확인합니다. \n$스터디 업데이트: 다음 업데이트 때 추가될 기능 내역을 확인합니다. \n$스터디 친구 {이름}: 친구 공부 시간을 확인합니다. (구현중) \n\n☎ 필요한 기능 or 버그 발견 시 언제든지 말해주세요~\`\`\`
       `);
       break;
     }
@@ -79,7 +79,7 @@ function messageProcess(message, option) {
     }
     case '업데이트':{
       message.channel.send(`
-          🗓 다음 업데이트 때 추가될 기능 내역을 확인합니다. \`\`\`1. 봇 성능 최적화 (Minify Code) \`\`\`
+          🗓 다음 업데이트 때 추가될 기능 내역을 확인합니다. \`\`\`1. 봇 성능 최적화 (Minify Code) \n2. 친구 공부 시간 확인 기능 추가 \`\`\`
       `);
       break;
     }
@@ -94,13 +94,12 @@ function messageProcess(message, option) {
         for (let j = i + 1; j < sortUsers.length; j++) {
 
           if (sortUsers[i].week < sortUsers[j].week) {
-            const temp = sortUsers[i].week;
-            sortUsers[i].week = sortUsers[j].week;
-            sortUsers[j].week = temp;
+            const temp = sortUsers[i];
+            sortUsers[i] = sortUsers[j];
+            sortUsers[j] = temp;
           }
         }
       }
-
 
       message.channel.send(`
           🏆 친구들의 일주일 스터디 랭킹을 확인합니다. \`\`\`${sortUsers[0] ? '🏅' + sortUsers[0].username + ' (' + parseTime(sortUsers[0].week) + ')': ''} ${sortUsers[1] ? '\n🥇' + sortUsers[1].username + ' (' + parseTime(sortUsers[1].week) + ')' : ''} ${sortUsers[2] ? '\n🥈' + sortUsers[2].username + ' (' + parseTime(sortUsers[2].week) + ')' : ''} ${sortUsers[3] ? '\n🥉' + sortUsers[3].username + ' (' + parseTime(sortUsers[3].week) + ')' : ''}\`\`\`
