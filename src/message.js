@@ -1,9 +1,9 @@
 const { parseTime } = require('./time');
 const db = require('../lib/database');
+const { source } = require('lowdb/adapters/FileSync');
 
 function messageProcess(message, option) {
   const { author: { id, username } } = message;
-  const user = db.get('users').find({ id }).value();
   const messageSendTime = new Date().getTime();
 
   switch (option) {
@@ -13,6 +13,8 @@ function messageProcess(message, option) {
       `);
       break;
     case '시작':
+      const user = db.get('users').find({ id }).value();
+
       if (!user) {
         // 신규 생성
         db.get('users')
@@ -48,7 +50,7 @@ function messageProcess(message, option) {
       `);
       break;
     case '종료':
-      const { isStudying, startTime, today, week, total } = user;
+      const { isStudying, startTime, today, week, total } = db.get('users').find({ id }).value();
 
       if (!user || !isStudying) {
         message.channel.send(`⚠ 스터디를 시작하지 않았습니다.`);
@@ -75,6 +77,29 @@ function messageProcess(message, option) {
     case '업데이트':
       message.channel.send(`
           🗓 다음 업데이트 때 추가될 기능 내역을 확인합니다. \`\`\`1. 봇 성능 최적화 (Minify Code) \n2. $스터디 랭킹 기능 구현\`\`\`
+      `);
+      break;
+    case '랭킹':
+
+      const users = db.get('users').value();
+      const sortUsers = users.map(({ username, week }) => ({
+        username,
+        week
+      }))
+
+      for (let i = 0; i < (sortUsers.length >= 4 ? 4 : sortUsers.length); i++) {
+        for (let j = i + 1; j < sortUsers.length; j++ ){
+
+          if(sortUsers[i].week < sortUsers[j].week){
+            const temp = sortUsers[i].week;
+            sortUsers[i].week = sortUsers[j].week;
+            sortUsers[j].week = temp;
+          }
+        }
+      }
+
+      message.channel.send(`
+          🏆 친구들의 일주일 스터디 랭킹을 확인합니다. \`\`\`${sortUsers[0].username && '🏅' + sortUsers[0].username} \n${sortUsers[1].username && '🥇' + sortUsers[1].username} \n${sortUsers[2].username && '🥈' + sortUsers[2].username} \n${sortUsers[3].username && '🥉' + sortUsers[3].username}\`\`\`
       `);
       break;
     default:
