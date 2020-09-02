@@ -16,17 +16,17 @@ function initialUserStudyTime() {
   setInterval(() => {
     const date = new Date();
     const hours = date.getHours(); // 5 -> 새벽 5시
-    const week = date.day(); // 1 -> 월요일
+    const week = date.getDay(); // 1 -> 월요일
 
-    if (hours === 5) {
+    if (hours === 5 && week === 1) {
       db.get('users')
-        .each((user) => ({
-          ...user,
-          isStudying: false,
-          startTime: 0,
-          today: 0,
-          week: week === 1 ? 0 : user.week
-        }))
+        .find({ isStudying: false })
+        .assign({ today: 0, week: 0 })
+        .write()
+    } else if (hours === 5) {
+      db.get('users')
+        .find({ isStudying: false })
+        .assign({ today: 0 })
         .write()
     }
   }, 1000 * 60 * 60);
