@@ -12,6 +12,12 @@ function parseTime(time) {
   return `${hour}:${minute}:${second}`
 }
 
+function initUserTimer(user, dateTypes){
+  for(type of dateTypes){
+    user[type] = 0;
+  }
+}
+
 function initialUserStudyTime() {
   setInterval(() => {
     const date = new Date();
@@ -20,13 +26,11 @@ function initialUserStudyTime() {
 
     if (hours === 5 && week === 1) {
       db.get('users')
-        .find({ isStudying: false })
-        .assign({ today: 0, week: 0 })
-        .write()
+        .each((user) => !user.isStudying && initUserTimer(user, ['today', 'week']))
+        .write();
     } else if (hours === 5) {
       db.get('users')
-        .find({ isStudying: false })
-        .assign({ today: 0 })
+        .each((user) => !user.isStudying && initUserTimer(user, ['today']))
         .write()
     }
   }, 1000 * 60 * 60);
