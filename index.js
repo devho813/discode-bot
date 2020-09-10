@@ -10,14 +10,18 @@ dotenv.config();
 
 client.once('ready', () => {
   db.defaults({ users: [] }).write();
-  initialUserStudyTime();
-
   console.log("스터디 봇이 준비되었습니다");
 });
 
-client.on('message', message => {
-  const [command, option] = message.content.split(" ");
+let studyTimerFlag = false;
 
+client.on('message', message => {
+  if(!studyTimerFlag){
+    initialUserStudyTime(message);
+    studyTimerFlag = true;
+  }
+  
+  const [command, option] = message.content.split(" ");
   if (message.channel.name !== '독서실📚') return;
   if (message.channel.type == 'dm') return;
   if (!message.content.startsWith(prefix)) return;

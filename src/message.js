@@ -8,7 +8,7 @@ function messageProcess(message, option) {
   switch (option) {
     case '명령어':{
       message.channel.send(`
-          💡 사용 가능한 명령어를 확인합니다. \`\`\`$스터디 시작: 스터디를 시작합니다. \n$스터디 종료: 스터디를 종료합니다. \n$스터디 랭킹: 친구들의 스터디 랭킹을 확인합니다. \n$스터디 업데이트: 다음 업데이트 때 추가될 기능 내역을 확인합니다. \n$스터디 친구 <이름>: 친구 공부 시간을 확인합니다. (구현중) \n\n☎ 필요한 기능 or 버그 발견 시 언제든지 말해주세요~\`\`\`
+          💡 사용 가능한 명령어를 확인합니다. \`\`\`$스터디 시작: 스터디를 시작합니다. \n$스터디 종료: 스터디를 종료합니다. \n$스터디 랭킹: 친구들의 일주일 스터디 랭킹을 확인합니다. \n\n☎ 필요한 기능 or 버그 발견 시 언제든지 말해주세요~\`\`\`
       `);
       break;
     }
@@ -25,7 +25,6 @@ function messageProcess(message, option) {
             startTime: messageSendTime,
             today: 0,
             week: 0,
-            total: 0,
           }).write();
       } else {
         // 업데이트
@@ -52,7 +51,7 @@ function messageProcess(message, option) {
     }
     case '종료':{
       const user = db.get('users').find({ id }).value();
-      const { isStudying, startTime, today, week, total } = user;
+      const { isStudying, startTime, today, week } = user;
 
       if (!user || !isStudying) {
         message.channel.send(`⚠ 스터디를 시작하지 않았습니다.`);
@@ -68,18 +67,11 @@ function messageProcess(message, option) {
           startTime: 0,
           today: today + studyAmount,
           week: week + studyAmount,
-          total: total + studyAmount
         })
         .write();
 
       message.channel.send(`
-          🎉 ${username}님이 스터디를 종료하셨습니다. \`\`\`오늘 공부한 시간: ${parseTime(today + studyAmount)} \n이번 주 공부한 시간: ${parseTime(week + studyAmount)} \n총 공부 시간: ${parseTime(total + studyAmount)}\`\`\`
-      `);
-      break;
-    }
-    case '업데이트':{
-      message.channel.send(`
-          🗓 다음 업데이트 때 추가될 기능 내역을 확인합니다. \`\`\`1. 봇 성능 최적화 (Minify Code) \n2. 친구 공부 시간 확인 기능 추가 \`\`\`
+          🎉 ${username}님이 스터디를 종료하셨습니다. \`\`\`오늘 공부 시간: ${parseTime(today + studyAmount)} \이번 주 공부 시간: ${parseTime(week + studyAmount)} \`\`\`
       `);
       break;
     }
