@@ -52,7 +52,7 @@ function messageProcess(message, option) {
     case '종료':{
       const user = db.get('users').find({ id }).value();
       const { isStudying, startTime, today, week } = user;
-
+ㄴ
       if (!user || !isStudying) {
         message.channel.send(`⚠ 스터디를 시작하지 않았습니다.`);
         return;
@@ -71,7 +71,7 @@ function messageProcess(message, option) {
         .write();
 
       message.channel.send(`
-          🎉 ${username}님이 스터디를 종료하셨습니다. \`\`\`오늘 공부 시간: ${parseTime(today + studyAmount)} \이번 주 공부 시간: ${parseTime(week + studyAmount)} \`\`\`
+          🎉 ${username}님이 스터디를 종료하셨습니다. \`\`\`오늘 공부 시간: ${parseTime(today + studyAmount)} \n이번 주 공부 시간: ${parseTime(week + studyAmount)} \`\`\`
       `);
       break;
     }
