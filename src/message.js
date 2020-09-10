@@ -6,7 +6,7 @@ function messageProcess(message, option) {
   const messageSendTime = new Date().getTime();
 
   switch (option) {
-    case '명령어':{
+    case '명령어': {
       message.channel.send(`
           💡 사용 가능한 명령어를 확인합니다. \`\`\`$스터디 시작: 스터디를 시작합니다. \n$스터디 종료: 스터디를 종료합니다. \n$스터디 랭킹: 친구들의 일주일 스터디 랭킹을 확인합니다. \n\n☎ 필요한 기능 or 버그 발견 시 언제든지 말해주세요~\`\`\`
       `);
@@ -49,10 +49,10 @@ function messageProcess(message, option) {
       `);
       break;
     }
-    case '종료':{
+    case '종료': {
       const user = db.get('users').find({ id }).value();
       const { isStudying, startTime, today, week } = user;
-ㄴ
+
       if (!user || !isStudying) {
         message.channel.send(`⚠ 스터디를 시작하지 않았습니다.`);
         return;
@@ -75,7 +75,7 @@ function messageProcess(message, option) {
       `);
       break;
     }
-    case '랭킹':{
+    case '랭킹': {
       const users = db.get('users').value();
       const sortUsers = users.map(({ username, week }) => ({
         username,
@@ -94,7 +94,7 @@ function messageProcess(message, option) {
       }
 
       message.channel.send(`
-          🏆 친구들의 일주일 스터디 랭킹을 확인합니다. \`\`\`${sortUsers[0] ? '🏅' + sortUsers[0].username + ' (' + parseTime(sortUsers[0].week) + ')': ''} ${sortUsers[1] ? '\n🥇' + sortUsers[1].username + ' (' + parseTime(sortUsers[1].week) + ')' : ''} ${sortUsers[2] ? '\n🥈' + sortUsers[2].username + ' (' + parseTime(sortUsers[2].week) + ')' : ''} ${sortUsers[3] ? '\n🥉' + sortUsers[3].username + ' (' + parseTime(sortUsers[3].week) + ')' : ''}\`\`\`
+          🏆 친구들의 일주일 스터디 랭킹을 확인합니다. \`\`\`${sortUsers[0] ? '🏅' + sortUsers[0].username + ' (' + parseTime(sortUsers[0].week) + ')' : ''} ${sortUsers[1] ? '\n🥇' + sortUsers[1].username + ' (' + parseTime(sortUsers[1].week) + ')' : ''} ${sortUsers[2] ? '\n🥈' + sortUsers[2].username + ' (' + parseTime(sortUsers[2].week) + ')' : ''} ${sortUsers[3] ? '\n🥉' + sortUsers[3].username + ' (' + parseTime(sortUsers[3].week) + ')' : ''}\`\`\`
       `);
       break;
     }
