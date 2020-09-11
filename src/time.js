@@ -24,7 +24,7 @@ function initialUserStudyTime(message) {
     const hours = date.getHours(); // 5 -> 새벽 5시
     const week = date.getDay(); // 1 -> 월요일
 
-    if (hours === 5 && week === 1) {
+    if (hours === 15 && week === 1) {
       await message.channel.send(`⏳ 오늘, 이번 주 스터디 시간이 초기화되었습니다.`);
       await message.channel.send('$스터디 랭킹');
       
@@ -34,7 +34,7 @@ function initialUserStudyTime(message) {
       return;
     } 
     
-    if (hours === 5 && week !== 1) {
+    if (hours === 15 && week !== 1) {
       await message.channel.send(`⏳ 오늘 스터디 시간이 초기화되었습니다.`);
       await message.channel.send('$스터디 랭킹');
 
