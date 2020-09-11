@@ -29,7 +29,7 @@ function initialUserStudyTime(message) {
       await message.channel.send('$스터디 랭킹');
       
       db.get('users')
-        .each((user) => initUserTimer(user, ['startTime', 'today', 'week']))
+        .each((user) => initUserTimer(user, ['today', 'week']))
         .write();
       return;
     } 
