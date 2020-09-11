@@ -14,6 +14,11 @@ function parseTime(time) {
 
 function initUserTimer(user, dateTypes){
   for(type of dateTypes){
+    if(type === 'isStudying'){
+      user[type] = false;
+      continue;
+    }
+    
     user[type] = 0;
   }
 }
@@ -29,7 +34,7 @@ function initialUserStudyTime(message) {
       await message.channel.send('$스터디 랭킹');
       
       db.get('users')
-        .each((user) => initUserTimer(user, ['today', 'week']))
+        .each((user) => initUserTimer(user, ['isStudying', 'startTime', 'today', 'week']))
         .write();
       return;
     } 
